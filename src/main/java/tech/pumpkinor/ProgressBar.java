@@ -11,7 +11,7 @@ public class ProgressBar {
     
     public static <T> void foreach(Collection<T> collection, Consumer<T> consumer){
         int size = collection.size();
-        final ProgressCallback callback = new ConsoleProgressBar(size,1);
+        final ProgressCallback callback = new ConsoleProgressBar(size,1,ProgressCallback.CYAN);
         final AtomicReference<BigDecimal> progressRef = new AtomicReference<>(BigDecimal.ZERO);
         try {
             collection.forEach(e -> {
@@ -26,7 +26,7 @@ public class ProgressBar {
     }
     
     public static void fori(int loop, Runnable runnable){
-        final ProgressCallback callback = new ConsoleProgressBar(loop,1);
+        final ProgressCallback callback = new ConsoleProgressBar(loop,1,ProgressCallback.RED);
         final AtomicReference<BigDecimal> progressRef = new AtomicReference<>(BigDecimal.ZERO);
         
         try {

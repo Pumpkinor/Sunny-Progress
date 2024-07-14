@@ -14,6 +14,7 @@ public class ConsoleProgressBar implements ProgressCallback{
 	private int progressBarLength = 100;
 	private String beforeFilling = "_";
 	private String afterFilling = "#";
+	private String colour = NORMAL;
     private int type = 0;
 
 	private void init(){
@@ -29,9 +30,10 @@ public class ConsoleProgressBar implements ProgressCallback{
 		this.init();
 	}
 	
-	public ConsoleProgressBar(double maxBarValue, int type){
+	public ConsoleProgressBar(double maxBarValue, int type, String colour){
 		this.maxBarValue = maxBarValue;
 		this.type = type;
+		this.colour = colour;
 		this.init();
 	}
 	
@@ -59,13 +61,15 @@ public class ConsoleProgressBar implements ProgressCallback{
 		int fillNum = divInteger(current, onePiece);
 		System.out.print('\r');
         StringBuilder text = new StringBuilder("[");
+		text.append(colour);
         text.append(String.valueOf(afterFilling).repeat(Math.max(0, fillNum)));
         text.append(String.valueOf(beforeFilling).repeat(Math.max(0, progressBarLength - fillNum)));
+		text.append(NORMAL);
 		text.append("] ");
         text = switch (type) {
-            case 1 -> new StringBuilder(text.toString().concat("[" + divPercent(current, maxBarValue) + "%]"));
-            case 2 -> new StringBuilder(text.toString().concat(divPercent(current, maxBarValue) + "%"));
-            default -> new StringBuilder(text.toString().concat("[" + current + "/" + maxBarValue + "]"));
+            case 1 -> new StringBuilder(text.toString().concat("[" + colour + divPercent(current, maxBarValue) + "%" + NORMAL + "]"));
+            case 2 -> new StringBuilder(text.toString().concat(colour + divPercent(current, maxBarValue) + "%" + NORMAL));
+            default -> new StringBuilder(text.toString().concat("["  + colour + current + "/" + maxBarValue + NORMAL + "]"));
         };
 		System.out.print(text);
 		if (fillNum == progressBarLength){
